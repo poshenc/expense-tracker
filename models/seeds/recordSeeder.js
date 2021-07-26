@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Record = require('../record') // 載入 todo model
+const Record = require('../record') 
 const records = [
   {
     name: '午餐',
