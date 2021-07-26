@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const Record = require('./models/record')
+const Category = require('./models/category')
 const bodyParser = require('body-parser')
 
 
@@ -31,9 +32,12 @@ app.get('/', (req, res) => {
     .catch(error => console.error(error))
 })
 
-//new 路由
+// new 路由
 app.get('/records/new', (req, res) => {
-  return res.render('new')
+  Category.find()
+    .lean()
+    .then(categories => res.render('new', { categories }))
+    .catch(error => console.error(error))
 })
 
 //edit 路由
