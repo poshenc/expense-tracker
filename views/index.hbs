@@ -1,9 +1,10 @@
 <h2>Hello world! 這是 index</h2>
-
+<a href="./records/new">Create</a>
 <ul>
   {{#each records}}
   <li>
     {{this.name}}
+    <a href="./records/{{ this._id }}">detail</a>
   </li>
   {{/each}}
 </ul>
