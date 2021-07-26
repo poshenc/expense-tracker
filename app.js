@@ -23,7 +23,7 @@ app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
-// 首頁路由
+// home page 路由
 app.get('/', (req, res) => {
   Record.find()
     .lean()
@@ -31,18 +31,9 @@ app.get('/', (req, res) => {
     .catch(error => console.error(error))
 })
 
-//Record路由
+//new 路由
 app.get('/records/new', (req, res) => {
   return res.render('new')
-})
-
-//View Detail路由
-app.get('/records/:id', (req, res) => {
-  const id = req.params.id
-  return Record.findById(id)
-    .lean()
-    .then((record) => res.render('detail', { record }))
-    .catch(error => console.log(error))
 })
 
 //edit 路由

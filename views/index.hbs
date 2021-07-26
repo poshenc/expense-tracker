@@ -1,10 +1,11 @@
-<h2>Hello world! 這是 index</h2>
-<a href="./records/new">Create</a>
+<h2>類別</h2>
+<h2>總金額: ****</h2>
 <ul>
   {{#each records}}
   <li>
     {{this.name}}
-    <a href="./records/{{ this._id }}">detail</a>
+    {{this.amount}}
+    {{this.date}}
     <a href="./records/{{ this._id }}/edit">edit</a>
     <form action="./records/{{ this._id }}/delete" method="POST" style="display: inline;">
       <button type="submit">delete</button>
@@ -12,3 +13,4 @@
   </li>
   {{/each}}
 </ul>
+<a href="./records/new">新增支出</a>
