@@ -45,6 +45,14 @@ app.get('/records/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
+//edit 路由
+app.get('/records/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Record.findById(id)
+    .lean()
+    .then((record) => res.render('edit', { record }))
+    .catch(error => console.log(error))
+})
 
 //資料庫新增資料
 app.post('/records', (req, res) => {
@@ -53,6 +61,20 @@ app.post('/records', (req, res) => {
     .then(() => res.redirect('/')) // 新增完成後導回首頁
     .catch(error => console.log(error))
 })
+
+//edit 資料庫修改特定的資料
+app.post('/records/:id/edit', (req, res) => {
+  const id = req.params.id
+  const name = req.body.name
+  return Record.findById(id)
+    .then(record => {
+      record.name = name
+      return record.save()
+    })
+    .then(() => res.redirect(`/records/${id}`))
+    .catch(error => console.log(error))
+})
+
 
 
 // 設定 port 3000
