@@ -4,7 +4,7 @@ const exphbs = require('express-handlebars')
 const Record = require('./models/record')
 const Category = require('./models/category')
 const bodyParser = require('body-parser')
-
+const methodOverride = require('method-override')
 
 const app = express()
 
@@ -22,6 +22,7 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 
 // home page 路由
@@ -58,20 +59,23 @@ app.post('/records', (req, res) => {
 })
 
 //edit 資料庫修改特定的資料
-app.post('/records/:id/edit', (req, res) => {
+app.put('/records/:id', (req, res) => {
+  const { name, date, category, amount } = req.body
   const id = req.params.id
-  const name = req.body.name
-  return Record.findById(id)
+  Record.findById(id)
     .then(record => {
       record.name = name
+      record.date = date
+      record.category = category
+      record.amount = amount
       return record.save()
     })
-    .then(() => res.redirect(`/records/${id}`))
+    .then(res.redirect('/'))
     .catch(error => console.log(error))
 })
 
 //delete 資料庫刪除特定的資料
-app.post('/records/:id/delete', (req, res) => {
+app.delete('/records/:id', (req, res) => {
   const id = req.params.id
   return Record.findById(id)
     .then(record => record.remove())
