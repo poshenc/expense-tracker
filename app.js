@@ -41,12 +41,14 @@ app.get('/records/new', (req, res) => {
     .catch(error => console.error(error))
 })
 
+
 //edit 路由
-app.get('/records/:id/edit', (req, res) => {
+app.get('/records/:id/edit', async (req, res) => {
+  const categoryList = await Category.find().lean()
   const id = req.params.id
   return Record.findById(id)
     .lean()
-    .then((record) => res.render('edit', { record }))
+    .then((record) => res.render('edit', { record, categoryList }))
     .catch(error => console.log(error))
 })
 
