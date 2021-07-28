@@ -1,3 +1,23 @@
+<div class="d-flex justify-content-center">
+  <div class="input-group mb-3">
+    <select class="custom-select" id="inputGroupSelect01" onchange="window.location.href=this.value">
+      <option selected disabled value="">查看單一類別</option>
+      {{#each categoryList}}
+      <option value="/filter?categorySelector={{ this.name }}">{{ this.name }}</option>
+      {{/each}}
+    </select>
+  </div>
+</div>
+
+<div class="container" style="width: 850px;">
+  <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-between" style="width: 500px;">
+      <big class="font-weight-bold">總金額：</big>
+      <span class="px-2" style="font-size: 70px; color:#f88a82">{{ totalAmount }}</span>
+    </div>
+  </div>
+</div>
+
 <h2>類別</h2>
 <h2>總金額: ****</h2>
 <ul>
@@ -5,7 +25,8 @@
   <li>
     {{this.name}}
     {{this.amount}}
-    {{this.date}}
+    {{ moment this.date format="YYYY-MM-DD" }}
+    </div>
     <a href="./records/{{ this._id }}/edit">edit</a>
     <form action="./records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
       <button type="submit">delete</button>

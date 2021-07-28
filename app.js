@@ -5,6 +5,7 @@ const Record = require('./models/record')
 const Category = require('./models/category')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+require('handlebars-helpers')()
 
 const app = express()
 
@@ -26,12 +27,59 @@ app.use(methodOverride('_method'))
 
 
 // home page 路由
-app.get('/', (req, res) => {
-  Record.find()
-    .lean()
-    .then(records => res.render('index', { records }))
-    .catch(error => console.error(error))
+// app.get('/', (req, res) => {
+//   Record.find()
+//     .lean()
+//     .then(records => res.render('index', { records }))
+//     .catch(error => console.error(error))
+// })
+
+app.get('/', async (req, res) => {
+  const categoryList = await Category.find().sort({ _id: 'asc' }).lean()
+  const records = await Record.find().lean().sort({ date: 'desc', _id: 'desc' })
+  let totalAmount = 0
+  for (let record of records) {
+    totalAmount += record.amount
+  }
+  res.render('index', { totalAmount, records, categoryList })
 })
+
+app.get('/filter', async (req, res) => {
+  const categoryList = await Category.find().sort({ _id: 'asc' }).lean()
+  const { categorySelector } = req.query
+  const records = await Record.find({ category: categorySelector }).lean().sort({ _id: 'desc' })
+  let totalAmount = 0
+  for (let record of records) {
+    totalAmount += record.amount
+  }
+  res.render('index', { totalAmount, records, categoryList, categorySelector })
+})
+
+//eg 22
+// app.get('/', (req, res) => {
+//   const categories = []
+//   const records = []
+//   totalAmount = 0
+
+//   Category.find()
+//     .lean()
+//     .then(category => {
+//       categories.push(...category)
+//       Record.find()
+//         .lean()
+//         .then(record => {
+//           records.push(...record)
+//           records.forEach(record => {
+//             const category = categories.find(category => category.name === record.category)
+//             record.icon = category.icon
+//             totalAmount += record.amount
+//           })
+//           res.render('index', { records, categories, totalAmount })
+//         })
+//         .catch(error => console.log(error))
+//     })
+//     .catch(error => console.log(error))
+// })
 
 // new 路由
 app.get('/records/new', (req, res) => {
@@ -50,12 +98,13 @@ app.get('/records/:id/edit', async (req, res) => {
     .lean()
     .then((record) => res.render('edit', { record, categoryList }))
     .catch(error => console.log(error))
+
 })
 
-//資料庫新增資料
+//new 資料庫新增資料
 app.post('/records', (req, res) => {
-  const name = req.body.name       // 從 req.body 拿出表單裡的 name 資料
-  return Record.create({ name })     // 存入資料庫
+  const { name, date, category, amount } = req.body
+  return Record.create({ name, date, category, amount }) // 存入資料庫
     .then(() => res.redirect('/')) // 新增完成後導回首頁
     .catch(error => console.log(error))
 })
