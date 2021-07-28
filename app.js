@@ -5,6 +5,7 @@ const Record = require('./models/record')
 const Category = require('./models/category')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const { ifEqual } = require('./tools/handlebarshelpers')
 require('handlebars-helpers')()
 
 const app = express()
@@ -20,23 +21,17 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', exphbs({ defaultLayout: 'main', helpers: { ifEqual }, extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-
-// home page 路由
-// app.get('/', (req, res) => {
-//   Record.find()
-//     .lean()
-//     .then(records => res.render('index', { records }))
-//     .catch(error => console.error(error))
-// })
-
 app.get('/', async (req, res) => {
   const categoryList = await Category.find().sort({ _id: 'asc' }).lean()
-  const records = await Record.find().lean().sort({ date: 'desc', _id: 'desc' })
+  const records = await Record
+    .find()
+    .lean()
+    .sort({ date: 'desc', _id: 'desc' })
   let totalAmount = 0
   for (let record of records) {
     totalAmount += record.amount
@@ -54,32 +49,6 @@ app.get('/filter', async (req, res) => {
   }
   res.render('index', { totalAmount, records, categoryList, categorySelector })
 })
-
-//eg 22
-// app.get('/', (req, res) => {
-//   const categories = []
-//   const records = []
-//   totalAmount = 0
-
-//   Category.find()
-//     .lean()
-//     .then(category => {
-//       categories.push(...category)
-//       Record.find()
-//         .lean()
-//         .then(record => {
-//           records.push(...record)
-//           records.forEach(record => {
-//             const category = categories.find(category => category.name === record.category)
-//             record.icon = category.icon
-//             totalAmount += record.amount
-//           })
-//           res.render('index', { records, categories, totalAmount })
-//         })
-//         .catch(error => console.log(error))
-//     })
-//     .catch(error => console.log(error))
-// })
 
 // new 路由
 app.get('/records/new', (req, res) => {

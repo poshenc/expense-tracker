@@ -3,7 +3,7 @@ const Record = require('../record')
 const records = [
   {
     name: '午餐',
-    category: '餐食飲品',
+    category: '餐飲食品',
     date: '2021/07/20',
     amount: 250
   },
@@ -29,7 +29,7 @@ const records = [
     name: '捐款',
     category: '其他',
     date: '2021/08/26',
-    amount: 50001
+    amount: 50000
   },
 ]
 
