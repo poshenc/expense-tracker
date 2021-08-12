@@ -12,10 +12,17 @@
 <body>
   <header>
     <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="/">家庭筆記本</a>
+      <a class="navbar-brand" href="/">
+        {{#if isAuthenticated}}{{ user.name}}的{{/if}}
+        家庭筆記本</a>
+      {{#if isAuthenticated}}
+      <a href="/users/logout" class="btn btn-outline-dark">Logout</a>
+      {{else}}
+      <a href="/users/login" class="btn btn-outline-dark">Login</a>
+      {{/if}}
     </nav>
   </header>
-  
+
   {{{ body }}}
 
 
