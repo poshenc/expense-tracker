@@ -6,8 +6,9 @@ const Category = require('../../models/category')
 
 router.get('/', async (req, res) => {
   const categoryList = await Category.find().sort({ _id: 'asc' }).lean()
+  const userId = req.user._id
   const records = await Record
-    .find()
+    .find({ userId })
     .lean()
     .sort({ date: 'desc', _id: 'desc' })
   let totalAmount = 0
@@ -20,6 +21,7 @@ router.get('/', async (req, res) => {
 router.get('/filter', async (req, res) => {
   const categoryList = await Category.find().sort({ _id: 'asc' }).lean()
   const { categorySelector } = req.query
+  const userId = req.user._id
   const records = await Record.find({ category: categorySelector }).lean().sort({ _id: 'desc' })
   let totalAmount = 0
   for (let record of records) {
