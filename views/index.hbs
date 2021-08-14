@@ -1,13 +1,36 @@
 <div class="container mt-3" style="width: 500px;">
-  <div class="d-flex justify-content-center">
-    <div class="input-group mb-3">
-      <select class="custom-select" onchange="window.location.href=this.value">
-        <option selected disabled value="">查看單一類別</option>
-        {{#each categoryList}}
-        <option value="/filter?categorySelector={{ this.name }}">{{ this.name }}</option>
+  <form action="/" method="GET" class="d-flex justify-content-center">
+    <div class="input-group mb-3 container-fluid">
+      <select class="custom-select" name="categorySelect" onchange="submit()">
+        <option value="" selected disabled value="">查看單一類別</option>
+        {{#each categories }}
+        <option value="{{this.name}}" {{#is this.name ../categorySelect }} selected {{/is}}>
+          {{this.name}}</option>
         {{/each}}
       </select>
     </div>
+
+    <div class="input-group filter-month mb-3 container-fluid">
+      <select class="form-control ml-2" name="monthSelect" onchange="submit()">
+        <option value="">所有月份</option>
+        <option value="1" {{#is monthSelect '1' }} selected {{/is}}>一月</option>
+        <option value="2" {{#is monthSelect '2' }} selected {{/is}}>二月</option>
+        <option value="3" {{#is monthSelect '3' }} selected {{/is}}>三月</option>
+        <option value="4" {{#is monthSelect '4' }} selected {{/is}}>四月</option>
+        <option value="5" {{#is monthSelect '5' }} selected {{/is}}>五月</option>
+        <option value="6" {{#is monthSelect '6' }} selected {{/is}}>六月</option>
+        <option value="7" {{#is monthSelect '7' }} selected {{/is}}>七月</option>
+        <option value="8" {{#is monthSelect '8' }} selected {{/is}}>八月</option>
+        <option value="9" {{#is monthSelect '9' }} selected {{/is}}>九月</option>
+        <option value="10" {{#is monthSelect '10' }} selected {{/is}}>十月</option>
+        <option value="11" {{#is monthSelect '11' }} selected {{/is}}>十一月</option>
+        <option value="12" {{#is monthSelect '12' }} selected {{/is}}>十二月</option>
+      </select>
+    </div>
+  </form>
+
+  <div class="mb-3 d-flex justify-content-end align-items-center">
+    <a class="btn btn-outline-dark mr-3" href="./?categorySelect=&monthSelect=">清除篩選</a>
   </div>
 
   <div class="container">
@@ -26,9 +49,7 @@
         <div class="col-8 d-flex align-items-center p-3">
 
           <div class="col-2 text-center" style="font-size: .5rem;">
-            {{#each ../categoryList}}
-            {{#ifEqual this.name ../this.category}}{{{this.icon}}}{{/ifEqual}}
-            {{/each}}
+            {{{this.icon}}}
           </div>
 
           <div class="col-8">
