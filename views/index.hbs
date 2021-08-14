@@ -33,7 +33,8 @@
 
           <div class="col-8">
             <div style="font-size: 20px; font-weight:bold">{{ this.name }}</div>
-            <small>{{ moment this.date format="YYYY-MM-DD" }}</small>
+            <small style="color:chocolate">{{ moment this.date format="YYYY-MM-DD" }}</small>
+            <small>@{{ this.merchant }}</small>
           </div>
           <big class="col-2" style="text-align: end;">{{ this.amount }}</big>
         </div>
