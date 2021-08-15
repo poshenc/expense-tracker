@@ -44,7 +44,7 @@ const records = [
     name: '捐款',
     category: '其他',
     date: '2021/08/26',
-    amount: 50000,
+    amount: 5000,
     merchant: '關愛基金會'
   },
 ]
