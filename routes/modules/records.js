@@ -4,13 +4,17 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 
 router.get('/new', (req, res) => {
-  res.render('new', { categories })
+  let categoriesList = []
+  Category.find()
+    .lean()
+    .then(categories => categoriesList.push(...categories))
+  res.render('new', { categoriesList })
 })
 
 router.get('/:id/edit', (req, res) => {
-  const categoriesList = []
   const userId = req.user._id
   const _id = req.params.id
+  let categoriesList = []
   Category.find()
     .lean()
     .then(categories => categoriesList.push(...categories))

@@ -5,15 +5,14 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 
 router.get('/', (req, res) => {
-  const categoriesList = []
-  const categoryIcons = {}
   const { categorySelect, monthSelect } = req.query
+  let categoriesList = []
+  let categoryIcons = {}
   let totalAmount = 0
   Category.find()
     .lean()
     .then(category => categoriesList.push(...category))
     .then(() => {
-
       Category.find()
         .sort({ _id: 'asc' })
         .lean()
