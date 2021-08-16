@@ -15,21 +15,21 @@ const records = [
   {
     name: '午餐',
     category: '餐飲食品',
-    date: '2021/07/20',
+    date: '1920/07/20',
     amount: 250,
     merchant: '麥當勞'
   },
   {
     name: '捷運',
     category: '交通出行',
-    date: '2021/07/22',
+    date: '2019/04/22',
     amount: 120,
     merchant: '台北車站'
   },
   {
     name: '看電影',
     category: '休閒娛樂',
-    date: '2021/07/24',
+    date: '2020/07/24',
     amount: 350,
     merchant: '信義華納威秀'
   },

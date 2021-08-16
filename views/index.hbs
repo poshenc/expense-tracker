@@ -2,10 +2,19 @@
   <form action="/" method="GET" class="d-flex justify-content-center">
     <div class="input-group mb-3 container-fluid">
       <select class="custom-select" name="categorySelect" onchange="submit()">
-        <option value="" selected disabled value="">查看單一類別</option>
+        <option value="" selected disabled value="">類別</option>
         {{#each categoriesList }}
         <option value="{{this.name}}" {{#is this.name ../categorySelect }} selected {{/is}}>
           {{this.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="input-group filter-year mb-3 container-fluid">
+      <select class="form-control ml-2" name="yearSelect" onchange="submit()">
+        <option value="">所有年份</option>
+        {{#each years}}
+        <option value="{{this}}" {{#is this ../yearSelect}} selected {{/is}}>{{this}}</option>
         {{/each}}
       </select>
     </div>
@@ -30,7 +39,7 @@
   </form>
 
   <div class="mb-3 d-flex justify-content-end align-items-center">
-    <a class="btn btn-outline-dark mr-3" href="./?categorySelect=&monthSelect=">清除篩選</a>
+    <a class="btn btn-outline-dark mr-3" href="./?categorySelect=&yearSelect=&monthSelect=">清除篩選</a>
   </div>
 
   <div class="container">
