@@ -3,7 +3,7 @@
     <div class="input-group mb-3 container-fluid">
       <select class="custom-select" name="categorySelect" onchange="submit()">
         <option value="" selected disabled value="">類別</option>
-        {{#each categoriesList }}
+        {{#each categories }}
         <option value="{{this.name}}" {{#is this.name ../categorySelect }} selected {{/is}}>
           {{this.name}}</option>
         {{/each}}

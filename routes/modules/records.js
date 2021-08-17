@@ -3,41 +3,27 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
-router.get('/new', (req, res) => {
-  return Category.find()
-    .lean()
-    .then((categoriesList) => {
-      res.render('new', { categoriesList })
-    })
-    .catch((error) => console.log(error))
+router.get('/new', async (req, res) => {
+  const categories = await Category.find().lean()
+  return res.render('new', { categories })
 })
 
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', async (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
-  let categoriesList = []
-  Category.find()
-    .lean()
-    .then(categories => categoriesList.push(...categories))
-    .catch(error => console.log(error))
-    .then(() => {
-      Record.findOne({ _id, userId })
-        .lean()
-        .then((record) => res.render('edit', { categoriesList, record }))
-        .catch(error => console.log(error))
-    })
+  const categories = await Category.find().lean()
+  const record = await Record.findOne({ _id, userId }).lean()
+  return res.render('edit', { categories, record })
 })
 
 router.post('/', (req, res) => {
   const userId = req.user._id
-  const { name, date, category, amount, merchant } = req.body
   return Record.create({ ...req.body, userId })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
 router.put('/:id', (req, res) => {
-  const { name, date, category, amount, merchant } = req.body
   const userId = req.user._id
   const _id = req.params.id
   Record.findOne({ _id, userId })

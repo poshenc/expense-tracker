@@ -24,7 +24,7 @@
       <div class="col-sm-8">
         <select class="custom-select" id="inputGroupSelect01" name="category" required>
           <option value="" selected>類別</option>
-          {{#each categoriesList}}
+          {{#each categories}}
           <option value="{{ this.name }}">{{ this.name }}</option>
           {{/each}}
         </select>
